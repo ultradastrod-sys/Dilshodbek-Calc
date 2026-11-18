@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dilshodbek Ai • Pro</title>
+<style>
+:root{--bg:#0b192c;--c:#132d46;--d:#091726;--s1:#060e18;--s2:#1e476d;--a:#38bdf8;--b1:#173756;--b2:#10263c;--op:#0284c7}
+[data-t="gold"]{--bg:#09090b;--c:#18181b;--d:#0f0f12;--s1:#000;--s2:#27272a;--a:#eab308;--b1:#222226;--b2:#141417;--op:#ca8a04}
+[data-t="green"]{--bg:#061a14;--c:#0d2e24;--d:#061712;--s1:#030d0a;--s2:#164a3a;--a:#10b981;--b1:#123d30;--b2:#0a241c;--op:#059669}
+*{box-sizing:border-box;margin:0;padding:0;font-family:sans-serif;user-select:none}
+body{display:flex;justify-content:center;align-items:center;min-height:100vh;background:var(--bg);transition:.3s}
+.app{background:var(--c);border-radius:26px;padding:16px;width:380px;max-width:96vw;box-shadow:14px 14px 28px var(--s1),-8px -8px 20px var(--s2);border:1px solid #ffffff1a}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:var(--a);font-size:11px;font-weight:800}
+.top span{cursor:pointer;background:var(--d);padding:4px 8px;border-radius:9px;margin-left:4px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;background:var(--d);padding:4px;border-radius:12px;margin-bottom:12px}
+.tabs button{border:0;background:0;color:#cbd5e1;padding:6px 2px;border-radius:8px;font-weight:700;cursor:pointer;font-size:10px}
+.tabs .active{background:var(--op);color:#fff}
+.sec{display:none}.sec.active{display:block}
+.disp{background:var(--d);border-radius:15px;padding:12px;text-align:right;margin-bottom:12px;box-shadow:inset 4px 4px 8px var(--s1)}
+#prev{color:var(--a);font-size:12px;min-height:16px}#curr{color:#fff;font-size:26px;font-weight:700;word-break:break-all}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.btn{border:0;border-radius:12px;padding:11px 4px;font-size:14px;font-weight:700;color:#f8fafc;background:linear-gradient(145deg,var(--b1),var(--b2));box-shadow:3px 3px 6px var(--s1),-2px -2px 5px var(--s2);cursor:pointer;transition:.08s}
+.btn:active{transform:translateY(2px) scale(0.97);box-shadow:inset 2px 2px 5px var(--s1)}
+.op{background:var(--op);color:#fff}.red{background:#dc2626;color:#fff}.eq{grid-column:span 2;background:var(--a);color:#09090b;font-weight:800}
+input,select{width:100%;background:var(--d);border:1px solid #ffffff20;color:#fff;padding:9px;border-radius:10px;margin:4px 0 8px;font-weight:600;font-size:12px}
+.row{display:flex;gap:6px}.box{background:var(--d);padding:11px;border-radius:12px;color:#e2e8f0;font-size:12px;line-height:1.7;margin-top:4px;white-space:pre-line;font-weight:700}
+.hist{max-height:210px;overflow-y:auto;color:#e2e8f0;font-size:12px;white-space:pre-line;line-height:1.8}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><b>DILSHODBEK AI • 8-IN-1</b><div><span onclick="thm()">🎨 Mavzu</span><span id="snd" onclick="chgSnd()">🔊 Baland</span></div></div>
+  <div class="tabs">
+    <button class="active" onclick="tab('c',this)">Oddiy</button><button onclick="tab('m',this)">Pul</button><button onclick="tab('b',this)">Biznes</button><button onclick="tab('k',this)">Kredit</button>
+    <button onclick="tab('a',this)">Avto</button><button onclick="tab('f',this)">Foyda</button><button onclick="tab('d',this)">Sana</button><button onclick="tab('h',this)">Tarix</button>
+  </div>
+  <div id="c" class="sec active">
+    <div class="disp"><div id="prev"></div><div id="curr">0</div></div>
+    <div class="grid">
+      <button class="btn op" onclick="sci('sin')">sin</button><button class="btn op" onclick="sci('cos')">cos</button><button class="btn op" onclick="sci('pi')">π</button><button class="btn op" onclick="del()">⌫</button>
+      <button class="btn op" onclick="sci('sqrt')">√</button><button class="btn op" onclick="sci('pow')">x²</button><button class="btn op" onclick="sci('pct')">%</button><button class="btn red" onclick="clr()">AC</button>
+      <button class="btn" onclick="num('7')">7</button><button class="btn" onclick="num('8')">8</button><button class="btn" onclick="num('9')">9</button><button class="btn op" onclick="op('/')">÷</button>
+      <button class="btn" onclick="num('4')">4</button><button class="btn" onclick="num('5')">5</button><button class="btn" onclick="num('6')">6</button><button class="btn op" onclick="op('*')">×</button>
+      <button class="btn" onclick="num('1')">1</button><button class="btn" onclick="num('2')">2</button><button class="btn" onclick="num('3')">3</button><button class="btn op" onclick="op('-')">−</button>
+      <button class="btn" onclick="num('0')">0</button><button class="btn" onclick="num('.')">.</button><button class="btn eq" onclick="calc()">=</button><button class="btn op" onclick="op('+')">+</button>
+    </div>
+  </div>
+  <div id="m" class="sec"><div class="row"><input type="number" id="mAmt" value="100" oninput="conv()"><select id="mCur" onchange="conv()"><option value="USD">USD ($)</option><option value="UZS">UZS</option><option value="EUR">EUR (€)</option><option value="RUB">RUB (₽)</option></select></div><input type="number" id="rate" value="12850" oninput="conv()"><div class="box" id="mRes"></div><button class="btn eq" style="width:100%;margin-top:8px" onclick="cp('mRes')">📋 Nusxalash</button></div>
+  <div id="b" class="sec"><input type="number" id="bP" placeholder="Asosiy summa" oninput="biz()"><div class="row"><input type="number" id="bD" value="10" oninput="biz()"><input type="number" id="bT" value="12" oninput="biz()"></div><div class="box" id="bRes">Jami: 0</div><button class="btn eq" style="width:100%;margin-top:8px" onclick="cp('bRes')">📋 Nusxalash</button></div>
+  <div id="k" class="sec"><input type="number" id="kSum" placeholder="Kredit summasi" oninput="kred()"><div class="row"><input type="number" id="kPct" value="24" oninput="kred()"><input type="number" id="kMon" value="36" oninput="kred()"></div><div class="box" id="kRes">Oylik: 0</div><button class="btn eq" style="width:100%;margin-top:8px" onclick="cp('kRes')">📋 Nusxalash</button></div>
+  <div id="a" class="sec"><input type="number" id="aKm" placeholder="Masofa (km)" oninput="avto()"><div class="row"><input type="number" id="aLit" value="8" oninput="avto()"><input type="number" id="aPrc" value="11500" oninput="avto()"></div><div class="box" id="aRes">Xarajat: 0</div><button class="btn eq" style="width:100%;margin-top:8px" onclick="cp('aRes')">📋 Nusxalash</button></div>
+  <div id="f" class="sec"><input type="number" id="fSum" placeholder="Sarmoya / Omonat" oninput="foyd()"><div class="row"><input type="number" id="fPct" value="22" oninput="foyd()"><input type="number" id="fMon" value="12" oninput="foyd()"></div><div class="box" id="fRes">Sof foyda: 0</div><button class="btn eq" style="width:100%;margin-top:8px" onclick="cp('fRes')">📋 Nusxalash</button></div>
+  <div id="d" class="sec"><input type="date" id="d1" oninput="sana()"><input type="date" id="d2" oninput="sana()"><div class="box" id="dRes">Farq: 0 kun</div></div>
+  <div id="h" class="sec"><div class="hist" id="hList"></div><button class="btn red" style="width:100%;margin-top:8px" onclick="hist=[];localStorage.removeItem('d_hist');rHist()">Tarixni tozalash</button></div>
+</div>
+<script>
+function g(i){return document.getElementById(i)}
+var nl=String.fromCharCode(10),cur='0',prv='',opr=null,sm=1,ti=0,thms=['','gold','green'],ctx=null,hist=[];
+try{hist=JSON.parse(localStorage.getItem('d_hist')||'[]')}catch(e){}
+function bip(f){if(!sm)return;try{if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();if(ctx.state==='suspended')ctx.resume();var t=ctx.currentTime,o=ctx.createOscillator(),gn=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(f||220,t);o.frequency.exponentialRampToValueAtTime(sm===1?55:950,t+0.07);gn.gain.setValueAtTime(0.85,t);gn.gain.exponentialRampToValueAtTime(0.001,t+0.07);o.connect(gn);gn.connect(ctx.destination);o.start(t);o.stop(t+0.075)}catch(e){}}
+function chgSnd(){sm=(sm+1)%3;g('snd').innerText=sm===1?'🔊 Baland':sm===2?'💧 Drop':'🔇 Off';bip(700)}
+function thm(){bip(260);ti=(ti+1)%3;document.body.setAttribute('data-t',thms[ti])}
+function tab(id,el){bip(240);document.querySelectorAll('.sec,.tabs button').forEach(function(x){x.classList.remove('active')});g(id).classList.add('active');el.classList.add('active');if(id==='m')conv()}
+function upd(){g('curr').innerText=cur;g('prev').innerText=opr?prv+' '+opr:''}
+function num(n){bip(190);if(n==='.'&&cur.indexOf('.')>-1)return;cur=cur==='0'&&n!=='.'?n:cur+n;upd()}
+function op(o){bip(240);if(prv)calc();opr=o;prv=cur;cur='';upd()}
+function del(){bip(150);cur=cur.length>1?cur.slice(0,-1):'0';upd()}
+function sci(t){bip(260);var v=parseFloat(cur),r=t==='sqrt'?Math.sqrt(v):t==='pow'?v*v:t==='pct'?v/100:t==='sin'?Math.sin(v*Math.PI/180):t==='cos'?Math.cos(v*Math.PI/180):Math.PI;r=+r.toFixed(6);addH(t+'('+v+') = '+r);cur=''+r;upd()}
+function calc(){bip(320);if(!prv||!opr||!cur)return;var a=parseFloat(prv),b=parseFloat(cur),r=opr==='+'?a+b:opr==='-'?a-b:opr==='*'?a*b:b!==0?a/b:0;r=+r.toFixed(6);addH(prv+' '+opr+' '+cur+' = '+r);cur=''+r;opr=prv='';upd()}
+function clr(){bip(130);cur='0';prv=opr='';upd()}
+function conv(){var a=+g('mAmt').value||0,c=g('mCur').value,r=+g('rate').value||12850,u=c==='USD'?a:c==='UZS'?a/r:c==='EUR'?a*1.08:a/96;g('mRes').innerText=['UZS: '+Math.round(u*r).toLocaleString(),'USD: $'+u.toFixed(2),'EUR: €'+(u/1.08).toFixed(2),'RUB: '+Math.round(u*96)+' ₽'].join(nl)}
+function biz(){var p=+g('bP').value||0,d=p*(+g('bD').value/100),t=(p-d)*(+g('bT').value/100);g('bRes').innerText=['Chegirma: -'+Math.round(d).toLocaleString(),'QQS: +'+Math.round(t).toLocaleString(),'Jami: '+Math.round(p-d+t).toLocaleString()].join(nl)}
+function kred(){var s=+g('kSum').value||0,r=(+g('kPct').value/100)/12,n=+g('kMon').value||1,m=r?s*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1):s/n,tot=m*n;g('kRes').innerText=['Oylik tolov: '+Math.round(m).toLocaleString(),'Jami foiz: '+Math.round(tot-s).toLocaleString(),'Umumiy: '+Math.round(tot).toLocaleString()].join(nl)}
+function avto(){var km=+g('aKm').value||0,l=(km/100)*(+g('aLit').value||0);g('aRes').innerText=['Yoqilgi: '+l.toFixed(1)+' L','Xarajat: '+Math.round(l*(+g('aPrc').value||0)).toLocaleString()].join(nl)}
+function foyd(){var s=+g('fSum').value||0,p=(+g('fPct').value/100)/12,m=+g('fMon').value||1,win=s*p*m;g('fRes').innerText=['Oylik daromad: +'+Math.round(s*p).toLocaleString(),'Sof foyda: +'+Math.round(win).toLocaleString(),'Jami summa: '+Math.round(s+win).toLocaleString()].join(nl)}
+function sana(){var a=new Date(g('d1').value),b=new Date(g('d2').value||new Date());if(isNaN(a))return;var k=Math.abs(Math.round((b-a)/86400000));g('dRes').innerText=['Kunlar: '+k+' kun','Hafta: '+(k/7).toFixed(1)+' hafta','Yil: '+(k/365.25).toFixed(2)+' yil'].join(nl)}
+function cp(id){bip(280);try{navigator.clipboard.writeText(g(id).innerText);alert('Nusxalandi!')}catch(e){}}
+function addH(s){hist.unshift(s);try{localStorage.setItem('d_hist',JSON.stringify(hist))}catch(e){}rHist()}
+function rHist(){g('hList').innerText=hist.length?hist.join(nl):'Hozircha bosh'}
+rHist();fetch('https://er-api.com').then(r=>r.json()).then(d=>{if(d&&d.rates&&d.rates.UZS){g('rate').value=Math.round(d.rates.UZS);conv()}}).catch(()=>{});
+document.addEventListener('keydown',function(e){if(g('c').classList.contains('active')){if(e.key>='0'&&e.key<='9')num(e.key);if(e.key==='.')num('.');if(['+','-','*','/'].indexOf(e.key)>-1)op(e.key);if(e.key==='Enter'||e.key==='=')calc();if(e.key==='Backspace')del();if(e.key==='Escape')clr()}});
+</script>
+</body>
+</html>
